@@ -28,3 +28,22 @@ aws eks --region ap-northeast-2 update-kubeconfig --name GoormEKSCluster
 kubectl get nodes
 ```
 
+# 3. Terraform Install
+OS 별 상이, Official DOCS 참조
+
+[terraform.io](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started)
+
+# 4. Create EKS
+```bash
+1. git clone
+git clone https://github.com/KWSong1995/goorm_eks.git
+
+2. Change Directory
+cd goorm_eks
+
+3. Directory initializing
+terraform init
+
+4. EKS 생성 (apply)
+terraform apply
+```
