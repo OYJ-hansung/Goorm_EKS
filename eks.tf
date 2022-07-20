@@ -10,7 +10,7 @@ resource "aws_eks_cluster" "GoormEKSCluster" {
     security_group_ids      = [aws_security_group.GoormEKSClusterSG.id]
     subnet_ids              = [aws_subnet.GoormProject-Public1.id, aws_subnet.GoormProject-Pravate1.id]
     endpoint_private_access = true
-    endpoint_public_access  = ture
+    endpoint_public_access  = true
   }
 
   depends_on = [
