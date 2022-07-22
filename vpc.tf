@@ -41,7 +41,7 @@ resource "aws_subnet" "GoormProject-Pravate2" {
   cidr_block        = "172.20.48.0/20"
   availability_zone = "ap-northeast-2d"
   tags = {
-    Name = "GoormProject-Private4"
+    Name = "GoormProject-Private2"
   }
 }
 
