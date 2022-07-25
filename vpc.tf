@@ -1,4 +1,26 @@
 # create VPC
+resource "aws_vpc" "vpc" {
+  cidr_block = "172.20.0.0/16"
+  tags = {
+    Name = "boookk-VPC"
+  }
+}
+
+
+resource "aws_subnet" "public_subnet" {
+  count = length(var.public_subnet_cidr)
+
+  vpc_id            = aws_vpc.vpc.id
+  cidr_block        = element(var.public_subnet_cidr, count.index)
+  availability_zone = "ap-northeast-2a"
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "boookk_public_subent${count.index + 1}"
+  }
+}
+
+/*
+# create VPC
 resource "aws_vpc" "GoormProject-VPC" {
   cidr_block = "172.20.0.0/16"
   tags = {
@@ -93,3 +115,4 @@ resource "aws_route_table_association" "GoormProject-VPC-Private-routing2" {
   route_table_id = aws_route_table.GoormProject-VPC-Private-route.id
   subnet_id      = aws_subnet.GoormProject-Pravate2.id
 }
+*/
