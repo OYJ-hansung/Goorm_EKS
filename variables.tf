@@ -56,3 +56,33 @@ variable "sg_eks_cluster_ingress_port" {
   description = "List of ingress port on security group"
   default     = [443]
 }
+
+#######
+# EC2
+######
+variable "key_pair_tag_key" {
+  description = "Key of key pair tag"
+  type        = string
+  default     = "key"
+}
+
+variable "key_pair_tag_value" {
+  description = "Value of key pair tag"
+  default     = "key"
+}
+
+variable "ami" {
+  description = "ID of AMI to use for the instance"
+  default     = "ami-0ea5eb4b05645aa8a" # ap-northeast-2 Ubuntu Server 20.04 LTS x64(x86)
+}
+
+variable "instance_type" {
+  description = "The type of instance to start"
+  type        = string
+  default     = "t2.medium"
+}
+
+variable "instance_size" {
+  description =  " Size of the volume in gibibytes (GiB)"
+  default     =  10
+}
