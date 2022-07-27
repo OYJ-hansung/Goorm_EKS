@@ -1,8 +1,8 @@
 # create security group
-resource "aws_security_group" "GoormEKSClusterSG" {
-  name        = "GoormEKSClusterSG"
-  description = "Goorm Project EKS Cluster"
-  vpc_id      = aws_vpc.GoormProject-VPC.id
+resource "aws_security_group" "sg_eks_cluster" {
+  name        = var.sg_eks_cluster_name
+  description = var.sg_eks_cluster_description
+  vpc_id      = aws_vpc.vpc.id
 
   egress {
     from_port   = 0
@@ -12,18 +12,19 @@ resource "aws_security_group" "GoormEKSClusterSG" {
   }
 
   tags = {
-    Name = "GoormEKSClusterSG"
+    Name = var.sg_eks_cluster_name
   }
 }
 
 
 # add ingress rule of security group
-resource "aws_security_group_rule" "GoormEKSClusterSG-ingress-workstation-https" {
+resource "aws_security_group_rule" "sg_eks_cluster_ingress_workstation_https" {
+  count = length(var.sg_eks_cluster_ingress_port)
+
   cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = 443
+  from_port         = element(var.sg_eks_cluster_ingress_port, count.index)
   protocol          = "tcp"
-  security_group_id = aws_security_group.GoormEKSClusterSG.id
-  to_port           = 443
+  security_group_id = aws_security_group.sg_eks_cluster.id
+  to_port           = element(var.sg_eks_cluster_ingress_port, count.index)
   type              = "ingress"
 }
-
