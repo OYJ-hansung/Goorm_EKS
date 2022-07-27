@@ -8,10 +8,10 @@ resource "aws_vpc" "vpc" {
 
 # create subnet
 resource "aws_subnet" "public_subnet" {
-  count = length(var.public_subnet_cidr)
+  count = length(var.public_subnet_cidr_blocks)
 
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = element(var.public_subnet_cidr, count.index)
+  cidr_block              = element(var.public_subnet_cidr_blocks, count.index)
   availability_zone       = element(var.az, count.index)
   map_public_ip_on_launch = true
   tags = {
@@ -20,10 +20,10 @@ resource "aws_subnet" "public_subnet" {
 }
 
 resource "aws_subnet" "private_subnet" {
-  count = length(var.private_subnet_cidr)
+  count = length(var.private_subnet_cidr_blocks)
 
   vpc_id            = aws_vpc.vpc.id
-  cidr_block        = element(var.private_subnet_cidr, count.index)
+  cidr_block        = element(var.private_subnet_cidr_blocks, count.index)
   availability_zone = element(var.az, count.index)
   tags = {
     Name = "${var.vpc_name}-subent-private${count.index + 1}"
@@ -53,12 +53,11 @@ resource "aws_route_table" "vpc_public_route" {
 # create route table association
 # Subnet 과 Route table 을 연결
 resource "aws_route_table_association" "vpc_public_routing" {
-  count = length(var.public_subnet_cidr)
+  count = length(var.public_subnet_cidr_blocks)
 
   subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
   route_table_id = aws_route_table.vpc_public_route.id
 }
-
 
 # create eip for nat
 resource "aws_eip" "nat_eip" {
@@ -89,7 +88,7 @@ resource "aws_route_table" "private_route" {
 }
 
 resource "aws_route_table_association" "vpc_private_routing" {
-  count = length(var.private_subnet_cidr)
+  count = length(var.private_subnet_cidr_blocks)
 
   subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
   route_table_id = aws_route_table.private_route.id
