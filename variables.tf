@@ -1,13 +1,3 @@
-variable "cluster_name" {
-  default = "GoormProjectEKS"
-  type    = string
-}
-
-variable "instance_type" {
-  default = "t3.medium"
-  type    = string
-}
-
 ######
 # VPC
 ######
@@ -85,4 +75,121 @@ variable "instance_type" {
 variable "instance_size" {
   description =  " Size of the volume in gibibytes (GiB)"
   default     =  10
+}
+
+######
+# IAM
+######
+variable "eks_cluster_role_name" {
+  description = "Name of IAM role"
+  default     = "eks_cluster"
+}
+
+variable "eks_node_role_name" {
+  description = "Name of IAM role"
+  default     = "eks_nodes"
+}
+
+variable "eks_cluster_policy_arns" {
+  description = "AWS of any policies to attach to the IAM role"
+  type        = set(string)
+  default     = [
+    "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+    "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  ]
+}
+
+variable "eks_node_policy_arns" {
+  description = "AWS of any policies to attach to the IAM role"
+  type        = set(string)
+  default     = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  ]
+}
+
+#####################
+# Additional Volumes
+#####################
+variable "buildsvr_ebs_volume_type"{
+  description = "Type of ebs"
+  default     = "gp2"
+}
+
+variable "buildsvr_ebs_volume_tag_key" {
+  description = "key of tag"
+  default     = "owner"
+}
+
+variable "buildsvr_ebs_volume_tag_val" {
+  description = "Value of tag"
+  default     = "build"
+}
+
+######
+# EKS
+######
+variable "cluster_name" {
+  description = "Name of the EKS cluster"
+  default     = "terraform-eks-cluster"
+}
+
+variable "cluster_version" {
+  description = "Kubernetes version to use for the EKS cluster"
+  default     = "1.22"
+}
+
+variable "cluster_endpoint_private_access" {
+  description = "Indicates whether or not the Amazon EKS private API server endpoint is enabled"
+  default     = true
+}
+
+variable "cluster_endpoint_public_access" {
+  description = "Indicates whether or not the Amazon EKS public API server endpoint is enabled"
+  default     = true
+}
+
+###############
+# Worker nodes
+###############
+variable "eks_node_group_name" {
+  description = "Name of the EKS node group"
+  default     = "eks_nodes_t2"
+}
+
+variable "eks_nodes_instance_types" {
+  description = "List of instance types associated with the EKS node group"
+  default     = ["t2.medium"]
+}
+
+variable "eks_nodes_disk_size" {
+  description = "Disk size in GiB for worker nodes"
+  default     = 20
+}
+
+variable "eks_node_labels" {
+  description = "Map of kubernetes labels"
+  type        = map(string)
+  default     = {
+    role = "eks-t2-medium"
+  }
+}
+
+variable "eks_node_sc_desired_size" {
+  description = "Desired number of worker nodes"
+  type        = number
+  default     = 2
+}
+
+variable "eks_node_sc_min_size" {
+  description = "Minimum number of worker nodes"
+  type        = number
+  default     = 2
+}
+
+variable "eks_node_sc_max_size" {
+  description = "Maximum number of worker nodes"
+  type        = number
+  default     = 4
 }
