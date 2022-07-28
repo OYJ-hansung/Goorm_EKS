@@ -1,14 +1,17 @@
+############################
+# Attaching a ebs to an ec2
+############################
 data "aws_ebs_volume" "buildsvr_ebs" {
   most_recent = true
 
   filter {
     name   = "volume-type"
-    values = ["gp2"]
+    values = [var.buildsvr_ebs_volume_type]
   }
 
   filter {
-    name   = "tag:owner"
-    values = ["build"]
+    name   = "tag:${var.buildsvr_ebs_volume_tag_key}"
+    values = [var.buildsvr_ebs_volume_tag_key]
   }
 }
 
