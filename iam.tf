@@ -1,6 +1,9 @@
-# EKS Cluster Roles & Policy
-resource "aws_iam_role" "GoormEKSRole" {
-  name               = "GoormEKSRole"
+############################
+# EKS Cluster Roles & Polic
+############################
+resource "aws_iam_role" "eks_cluster" {
+  name = var.eks_cluster_role_name
+
   assume_role_policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -17,21 +20,18 @@ resource "aws_iam_role" "GoormEKSRole" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "eks-cluster-EKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.GoormEKSRole.name
+resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
+  for_each = var.eks_cluster_policy_arns
+
+  policy_arn = each.key
+  role       = aws_iam_role.eks_cluster.name
 }
 
-resource "aws_iam_role_policy_attachment" "eks-cluster-EKSVPCResourceController" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
-  role       = aws_iam_role.GoormEKSRole.name
-}
-
+###########################
 # EKS Nodes Roles & Policy
-
-
-resource "aws_iam_role" "Goorm-eks-nodes-role" {
-  name = "Goorm-eks-nodes-role"
+###########################
+resource "aws_iam_role" "eks_node" {
+  name = var.eks_node_role_name
 
   assume_role_policy = <<POLICY
 {
@@ -49,18 +49,9 @@ resource "aws_iam_role" "Goorm-eks-nodes-role" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "eks-node-EKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.Goorm-eks-nodes-role.name
-}
+resource "aws_iam_role_policy_attachment" "eks_node_policy" {
+  for_each = var.eks_node_policy_arns
 
-resource "aws_iam_role_policy_attachment" "eks-node-EKS_CNI_Policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.Goorm-eks-nodes-role.name
+  policy_arn = each.key
+  role       = aws_iam_role.eks_node.name
 }
-
-resource "aws_iam_role_policy_attachment" "eks-node-EC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.Goorm-eks-nodes-role.name
-}
-
