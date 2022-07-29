@@ -11,7 +11,7 @@ data "aws_ebs_volume" "buildsvr_ebs" {
 
   filter {
     name   = "tag:${var.buildsvr_ebs_volume_tag_key}"
-    values = [var.buildsvr_ebs_volume_tag_key]
+    values = [var.buildsvr_ebs_volume_tag_val]
   }
 }
 
