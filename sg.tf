@@ -19,12 +19,10 @@ resource "aws_security_group" "sg_eks_cluster" {
 
 # add ingress rule of security group
 resource "aws_security_group_rule" "sg_eks_cluster_ingress_workstation_https" {
-  count = length(var.sg_eks_cluster_ingress_port)
-
   cidr_blocks       = ["0.0.0.0/0"]
-  from_port         = element(var.sg_eks_cluster_ingress_port, count.index)
-  protocol          = "tcp"
+  from_port         = 0
+  protocol          = "-1"
   security_group_id = aws_security_group.sg_eks_cluster.id
-  to_port           = element(var.sg_eks_cluster_ingress_port, count.index)
+  to_port           = 0
   type              = "ingress"
 }
