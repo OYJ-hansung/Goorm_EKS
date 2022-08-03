@@ -19,3 +19,16 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks_cluster_policy
   ]
 }
+
+#######################
+# cluster registration
+#######################
+resource "null_resource" "cluster_registration" {
+  provisioner "local-exec" {
+    command = "aws eks --region ap-northeast-2 update-kubeconfig --name ${var.cluster_name}"
+  }
+  
+  depends_on = [
+    aws_eks_cluster.eks_cluster
+  ]
+}
