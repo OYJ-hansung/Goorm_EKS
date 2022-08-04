@@ -193,3 +193,8 @@ variable "eks_node_sc_max_size" {
   type        = number
   default     = 4
 }
+
+variable "eks_node_key_name" {
+  description = "EKS node Key Pair name"
+  default     = "key0722"
+}
