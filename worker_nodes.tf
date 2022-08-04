@@ -15,6 +15,11 @@ resource "aws_eks_node_group" "eks_nodes_t2" {
     max_size     = var.eks_node_sc_max_size
   }
 
+  remote_access {
+    ec2_ssh_key               = var.eks_node_key_name
+    source_security_group_ids = [aws_security_group.sg_eks_cluster.id]
+  }
+  
   depends_on = [
     aws_iam_role_policy_attachment.eks_node_policy,
   ]
