@@ -32,6 +32,16 @@ variable "az" {
 #################
 # Security Group
 #################
+variable "sg_allow_all" {
+  description = "Name of security group"
+  default     = "sg_allow_all"
+}
+
+variable "sg_allow_all_description" {
+  description = "Description of security group"
+  default     = "Security group"
+}
+
 variable "sg_eks_cluster_name" {
   description = "Name of security group"
   default     = "sg_eks_cluster"
