@@ -208,3 +208,16 @@ variable "eks_node_key_name" {
   description = "EKS node Key Pair name"
   default     = "key0722"
 }
+
+######
+# EIP
+######
+variable "buildsvr_eip_name" {
+  description = "buildsvr_eip_name"
+  default     = "buildsvr"
+}
+
+variable "worker_node_eip_name" {
+  description = "worker_node_eip_name"
+  default     = "worker-node"
+}
