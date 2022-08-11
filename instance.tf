@@ -48,3 +48,20 @@ resource "aws_instance" "buildsvr" {
     Name = "Build Server"
   }
 }
+
+#################################
+# Elastic ip lookup for buildsvr
+#################################
+data "aws_eip" "buildsvr_eip" {
+  tags = {
+    Name = var.buildsvr_eip_name
+  }
+}
+
+##############################
+# EIP connections to buildsvr
+##############################
+resource "aws_eip_association" "buildsvr_eip_assoc" {
+  instance_id   = aws_instance.buildsvr.id
+  allocation_id = data.aws_eip.buildsvr_eip.id
+}
