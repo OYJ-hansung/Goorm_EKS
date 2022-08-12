@@ -1,7 +1,4 @@
 resource "null_resource" "this" {
-  provisioner "local-exec" {
-    command = "aws eks --region ap-northeast-2 update-kubeconfig --name GoormEKSCluster"
-  }
   
   provisioner "local-exec" {
     command = "kubectl create namespace argocd"
@@ -34,8 +31,8 @@ resource "null_resource" "this" {
   }
   
   depends_on = [
-    aws_eks_cluster.GoormEKSCluster,
-    aws_eks_node_group.eks-nodes-t2
+    aws_eks_cluster.eks_cluster,
+    aws_eks_node_group.eks_nodes_t2
   ]
   
 }
