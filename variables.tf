@@ -3,7 +3,7 @@
 ######
 variable "vpc_name" {
   description = "VPC NAME"
-  default     = "terraform-vpc"
+  default     = "SWM-vpc"
 }
 
 variable "vpc_cidr" {
