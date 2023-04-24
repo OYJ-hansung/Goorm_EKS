@@ -2,7 +2,7 @@
 resource "aws_eks_node_group" "eks_nodes_t2" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = var.eks_node_group_name
-  subnet_ids      = [aws_subnet.public_subnet[0].id]
+  subnet_ids      = [aws_subnet.private_subnet[0].id]
   node_role_arn   = aws_iam_role.eks_node.arn
   instance_types  = var.eks_nodes_instance_types
   disk_size       = var.eks_nodes_disk_size
