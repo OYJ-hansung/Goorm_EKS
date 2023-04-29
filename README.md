@@ -1,3 +1,5 @@
+![캡처](/diagram/diagram.png)
+
 # 1. kubectl 바이너리 설치
 ```bash
 1. 다음 명령으로 최신 릴리스를 다운로드
